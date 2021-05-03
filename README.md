@@ -1,2 +1,2 @@
-# RPG_GANG
+# RPG GANG
 Bot para o RPG do GANG
