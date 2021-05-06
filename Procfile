@@ -1,1 +1,1 @@
-worker principal.py
+worker: python principal.py
