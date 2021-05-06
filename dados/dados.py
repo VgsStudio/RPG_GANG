@@ -6,8 +6,6 @@ def dado20(x):
     return n
 
 
-
-
 def dado10():
     n = random.randint(1,10)
     return n

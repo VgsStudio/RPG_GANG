@@ -7,7 +7,7 @@ beautifulsoup4==4.9.3
 certifi==2020.12.5
 chardet==4.0.0
 colorama==0.4.4
-discord-ext-menus==1.0.0a30+g309c702
+git+git://github.com/Rapptz/discord-ext-menus.git
 discord.py==1.7.2
 idna==2.10
 isort==5.8.0
