@@ -13,3 +13,5 @@ def criar_personagem(nome, vitalidade, força, observaçao, destreza, inteligenc
 def imprimir_personagem(nome, atributo):
     return(dicionarioPersoangens[nome].atributo[atributo])
 
+def deletar_personagem(nome):
+    dicionarioPersoangens.pop(nome)
