@@ -21,3 +21,10 @@ def dado6():
 def dado4():
     n = random.randint(1,4)
     return n    
+
+
+def dados_generico(x):
+    x = str(x)
+    x = int(x.replace('d',''))
+    n = random.randint(1,x)
+    return n

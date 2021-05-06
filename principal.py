@@ -20,6 +20,8 @@ async def on_ready():
 @client.command()
 async def criar(ctx,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9):
     try:
+        antigo_arg1 = arg1
+        arg1 = arg1.lower()
         arg2 = int(arg2)
         arg3 = int(arg3)
         arg4 = int(arg4)
@@ -30,6 +32,9 @@ async def criar(ctx,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9):
         arg9 = int(arg9)
         
         criar_personagem(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9)
+
+        
+
         await ctx.send('''Nome = %s
 Vitalidade = %i
 Força = %i
@@ -38,14 +43,15 @@ Destreza = %i
 Inteligência = %i
 Carisma = %i 
 Sorte = %i
-Poder = %i''' % (arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9))
+Poder = %i''' % (antigo_arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9))
     except:
-        await ctx.send('Você esqueceu algum par')
+        await ctx.send('Você esqueceu algum atributo!')
     pass
 
 @client.command()
 async def deletar(ctx,arg1):
     try:
+        arg1 = arg1
         deletar_personagem(arg1)
         await ctx.send('%s será deletado para sempre...' % arg1)
     except:
@@ -55,10 +61,23 @@ async def deletar(ctx,arg1):
 
 @client.command()
 async def d20(ctx,arg1,arg2):
+    antigo_arg1 = arg1
+    arg1 = arg1.lower()
+    arg2 = arg2.lower()
     Resp = dado20(imprimir_personagem(arg1,arg2))
-    await ctx.send('%s tirou %i em %s' % (arg1, Resp, arg2))
+    await ctx.send('%s tirou %i em %s' % (antigo_arg1, Resp, arg2))
     pass
 
+@client.command()
+async def roll(ctx,arg0,arg1):
+    antigo_arg1 = arg1
+    arg1 = arg1.lower()
+    Resp = dados_generico(arg0)
+    await ctx.send('%s tirou %i' % (antigo_arg1 ,Resp))
+    pass
+
+
+'''
 @client.command()
 async def d10(ctx,arg1):
     Resp = dado10()
@@ -85,7 +104,7 @@ async def d4(ctx,arg1):
     Resp = dado4()
     await ctx.send('%s tirou %i' % (arg1 ,Resp))
     pass
-
+'''
 
 
 
