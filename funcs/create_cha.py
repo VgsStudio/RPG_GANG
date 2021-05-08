@@ -6,6 +6,8 @@ class Personagem():
 
 dicionarioPersoangens = {}
 
+
+
 def criar_personagem(nome, vitalidade, força, observaçao, destreza, inteligencia, carisma, sorte, poder):
     dicionarioPersoangens.update({nome: Personagem(nome, vitalidade, força, observaçao, destreza, inteligencia, carisma, sorte, poder)})
 
@@ -15,3 +17,4 @@ def imprimir_personagem(nome, atributo):
 
 def deletar_personagem(nome):
     dicionarioPersoangens.pop(nome)
+
