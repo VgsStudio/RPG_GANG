@@ -12,13 +12,14 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
 
-listas_personagens = []
-
 @client.event
 async def on_ready():
     discord.Activity(name="Test", type=5)
     print("Pai ta on! 😎")
+    await client.change_presence(activity=discord.Game(name="$help"))
+    pass
 
+listas_personagens = []
 
 @client.command()
 async def criar(ctx,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9):
@@ -54,8 +55,9 @@ _Poder_ = %i''' % (antigo_arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9))
 @client.command()
 async def deletar(ctx,arg1):
     try:
-        arg1 = arg1
+        arg1 = arg1.lower()
         deletar_personagem(arg1)
+        listas_personagens.remove(arg1)
         await ctx.send('_%s será deletado para sempre..._' % arg1)
     except:
         await ctx.send('_Esse personagem não existe!_')
@@ -89,13 +91,31 @@ async def d20(ctx,arg1,arg2):
 
 @client.command()
 async def roll(ctx,arg0,arg1):
-    antigo_arg1 = arg1
-    arg1 = arg1.lower()
-    Resp = dados_generico(arg0)
-    await ctx.send('_%s_ tirou %i' % (antigo_arg1 ,Resp))
+    int(arg0)
+    if arg0 >= 2:
+        antigo_arg1 = arg1
+        arg1 = arg1.lower()
+        Resp = dados_generico(arg0)
+        await ctx.send('_%s_ tirou %i' % (antigo_arg1 ,Resp))
+    elif arg0 < 0:
+        await ctx.send('O dado não pode ter lados negativos!')
+
+    else:
+        await ctx.send('O dado tem que ter mais de 2 lados!')
     pass
-
-
+"""
+@client.command()
+async def help(ctx):
+    await ctx.send('''$criar [nome vitalidade força observaçao destreza inteligencia carisma sorte poder] - Cria o personagem
+$deletar [nome] - Deleta um personagem
+$atributos [nome] - Mostra os atributos do personagem
+$personagens - Mostra todos os personagens criados
+$d20 [nome atributo] - Roda um d20 e soma com o atributo
+$roll d[n°] - Roda um dado a quantidade n
+''')
+    
+    pass
+"""
 
 client.run(TOKEN)
 
