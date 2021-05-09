@@ -55,7 +55,6 @@ _Poder_ = %i''' % (antigo_arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9))
 @client.command()
 async def deletar(ctx,arg1):
     try:
-        arg1 = arg1.lower()
         deletar_personagem(arg1)
         listas_personagens.remove(arg1)
         await ctx.send('_%s será deletado para sempre..._' % arg1)
@@ -66,7 +65,8 @@ async def deletar(ctx,arg1):
 
 @client.command()
 async def personagens(ctx): 
-    s = ", ".join(listas_personagens)
+    s = """ 
+    """.join(listas_personagens)
     await ctx.send(s)
     pass
 
