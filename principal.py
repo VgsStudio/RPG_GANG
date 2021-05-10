@@ -14,7 +14,6 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 
 @client.event
 async def on_ready():
-    discord.Activity(name="Test", type=5)
     print("Pai ta on! 😎")
     await client.change_presence(activity=discord.Game(name="$help"))
     pass
@@ -37,7 +36,7 @@ async def criar(ctx,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9):
         
         criar_personagem(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9)
 
-        listas_personagens.append(antigo_arg1)
+        listas_personagens.append(arg1)
         
         await ctx.send('''_Nome_ = %s
 _Vitalidade_ = %i
@@ -55,9 +54,11 @@ _Poder_ = %i''' % (antigo_arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9))
 @client.command()
 async def deletar(ctx,arg1):
     try:
+        antigo_arg1 = arg1
+        arg1 = arg1.lower()
         deletar_personagem(arg1)
         listas_personagens.remove(arg1)
-        await ctx.send('_%s será deletado para sempre..._' % arg1)
+        await ctx.send('_%s será deletado para sempre..._' % antigo_arg1)
     except:
         await ctx.send('_Esse personagem não existe!_')
     pass
@@ -65,8 +66,8 @@ async def deletar(ctx,arg1):
 
 @client.command()
 async def personagens(ctx): 
-    s = """ 
-    """.join(listas_personagens)
+    s = """
+""".join(listas_personagens)
     await ctx.send(s)
     pass
 
@@ -103,6 +104,7 @@ async def roll(ctx,arg0,arg1):
     else:
         await ctx.send('O dado tem que ter mais de 2 lados!')
     pass
+
 """
 @client.command()
 async def help(ctx):
