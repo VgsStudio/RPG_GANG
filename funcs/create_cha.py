@@ -17,3 +17,8 @@ def imprimir_personagem(nome, atributo):
 
 def deletar_personagem(nome):
     dicionarioPersoangens.pop(nome)
+
+'''
+def mudar_pericia(nome, atributo):
+    dicionarioPersoangens.update
+'''

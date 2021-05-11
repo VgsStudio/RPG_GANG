@@ -19,36 +19,37 @@ async def on_ready():
     pass
 
 listas_personagens = []
-
+lista_criador = []
 @client.command()
 async def criar(ctx,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9):
     try:
-        antigo_arg1 = arg1
         arg1 = arg1.lower()
-        arg2 = int(arg2)
-        arg3 = int(arg3)
-        arg4 = int(arg4)
-        arg5 = int(arg5)
-        arg6 = int(arg6)
-        arg7 = int(arg7)
-        arg8 = int(arg8)
-        arg9 = int(arg9)
+        ARGUMENTOS = [arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9]
+        atributos = ["Vitalidade", "Força", "Observaçao", "Destreza", "Inteligencia", 'Carisma', "Sorte", "Poder"]
         
-        criar_personagem(arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9)
 
+        bloco=discord.Embed(color=0xff6600)
+                
+        for x,y in zip(ARGUMENTOS, atributos): #Cria o bloco
+            x = int(x)
+            bloco.add_field(name=y, value=x, inline=False)
+
+        ARGUMENTOS.insert(0, arg1)
+
+        ARGUMENTOS = [arg1, arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9]
+
+        criar_personagem(*ARGUMENTOS)
+        
         listas_personagens.append(arg1)
         
-        await ctx.send('''_Nome_ = %s
-_Vitalidade_ = %i
-_Força_ = %i
-_Observação_ = %i
-_Destreza_ = %i
-_Inteligência_ = %i
-_Carisma_ = %i 
-_Sorte_ = %i
-_Poder_ = %i''' % (antigo_arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9))
+       
+
+        criador = ctx.author.name
+        lista_criador.append(criador)
+        
+        await ctx.send(embed=bloco)
     except:
-        await ctx.send('_Você esqueceu algum atributo!_')
+        await ctx.send('**Você esqueceu algum atributo!**')
     pass
 
 @client.command()
@@ -57,52 +58,68 @@ async def deletar(ctx,arg1):
         antigo_arg1 = arg1
         arg1 = arg1.lower()
         deletar_personagem(arg1)
+        lista_criador.pop(listas_personagens.index(arg1))
         listas_personagens.remove(arg1)
-        await ctx.send('_%s será deletado para sempre..._' % antigo_arg1)
+
+        await ctx.send('**%s será deletado para sempre...**' % antigo_arg1)
     except:
-        await ctx.send('_Esse personagem não existe!_')
+        await ctx.send('**Esse personagem não existe!**')
     pass
 
 
 @client.command()
 async def personagens(ctx): 
-    s = """
-""".join(listas_personagens)
-    await ctx.send(s)
+    bloco=discord.Embed(color=0xff6600)
+    for x,y in zip(listas_personagens, lista_criador):
+        x = str(x)
+        bloco.add_field(name=x.title(), value="Criado por %s " % y, inline=False)
+    await ctx.send(embed=bloco)
     pass
 
 @client.command()
 async def atributos(ctx, arg1): 
     atributos = ["vitalidade", "força", "observaçao", "destreza", "inteligencia", 'carisma', "sorte", "poder"]
     arg1 = arg1.lower()
+    
+    bloco=discord.Embed(color=0xff6600)
+
     for x in atributos:
        atri = int(imprimir_personagem(arg1,x))
-       await ctx.send('_%s_ = %i' % (x, atri))
+       bloco.add_field(name=x.title(), value=atri, inline=False)
+
+    await ctx.send(embed=bloco)   
     pass 
 
 
 @client.command()
-async def d20(ctx,arg1,arg2):
+async def pericia(ctx,arg1,arg2,arg3):
+    pass
+
+
+@client.command()
+async def d20(ctx,arg1,arg2, arg3 = 0):
     antigo_arg1 = arg1
     arg1 = arg1.lower()
     arg2 = arg2.lower()
-    Resp = dado20(imprimir_personagem(arg1,arg2))
-    await ctx.send('_%s_ tirou %i em %s' % (antigo_arg1, Resp, arg2))
+    arg3 = int(arg3)
+    Resp = dado20(int(imprimir_personagem(arg1,arg2))) + arg3
+
+    embed=discord.Embed(color=0xffffff)
+    embed.add_field(name="Resultado: ", value="**%s** tirou %i em %s" % (antigo_arg1, Resp, arg2), inline=False)
+    await ctx.reply(embed=embed, mention_author=True)
     pass
 
 @client.command()
-async def roll(ctx,arg0,arg1):
-    int(arg0)
-    if arg0 >= 2:
-        antigo_arg1 = arg1
-        arg1 = arg1.lower()
-        Resp = dados_generico(arg0)
-        await ctx.send('_%s_ tirou %i' % (antigo_arg1 ,Resp))
-    elif arg0 < 0:
-        await ctx.send('O dado não pode ter lados negativos!')
+async def roll(ctx,arg0, arg3: int = 0, *,arg1):
 
-    else:
-        await ctx.send('O dado tem que ter mais de 2 lados!')
+    antigo_arg1 = arg1
+    arg1 = arg1.lower()
+    Resp = dados_generico(arg0) + arg3
+    arg3 = int(arg3)
+
+    embed=discord.Embed(color=0xffffff)
+    embed.add_field(name="Resultado: ", value="**%s** tirou %i" % (antigo_arg1, Resp), inline=False)
+    await ctx.reply(embed=embed, mention_author=True)
     pass
 
 """
