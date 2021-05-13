@@ -47,7 +47,7 @@ async def criar(ctx,arg1,arg2,arg3,arg4,arg5,arg6,arg7,arg8,arg9):
         criador = ctx.author.name
         lista_criador.append(criador)
         
-        await ctx.send(embed=bloco)
+        await ctx.reply(embed=bloco)
     except:
         await ctx.send('**Você esqueceu algum atributo!**')
     pass
@@ -78,21 +78,22 @@ async def personagens(ctx):
 
 @client.command()
 async def atributos(ctx, arg1): 
-    atributos = ["vitalidade", "força", "observaçao", "destreza", "inteligencia", 'carisma', "sorte", "poder"]
+    atributos = ["nome","vitalidade", "força", "observaçao", "destreza", "inteligencia", 'carisma', "sorte", "poder"]
     arg1 = arg1.lower()
     
     bloco=discord.Embed(color=0xff6600)
 
+    
     for x in atributos:
-       atri = int(imprimir_personagem(arg1,x))
-       bloco.add_field(name=x.title(), value=atri, inline=False)
+       atri = imprimir_personagem(arg1,x)
+       bloco.add_field(name=x.title(), value=atri.title(), inline=False)
 
-    await ctx.send(embed=bloco)   
+    await ctx.reply(embed=bloco)   
     pass 
 
 
 @client.command()
-async def pericia(ctx,arg1,arg2,arg3):
+async def mudar(ctx,arg1,arg2,arg3):
     pass
 
 
@@ -110,15 +111,20 @@ async def d20(ctx,arg1,arg2, arg3 = 0):
     pass
 
 @client.command()
-async def roll(ctx,arg0, arg3: int = 0, *,arg1):
+async def roll(ctx,arg0, arg3 = 0):
 
-    antigo_arg1 = arg1
-    arg1 = arg1.lower()
     Resp = dados_generico(arg0) + arg3
-    arg3 = int(arg3)
+   
+    nome = ctx.author.display_name
 
+    if arg3 > 0:
+        arg0 = arg0 + ' +' + str(arg3)
+    elif arg3 < 0:
+        arg0 = arg0 + ' ' + str(arg3)
+    else:
+        arg0 = 'dado'
     embed=discord.Embed(color=0xffffff)
-    embed.add_field(name="Resultado: ", value="**%s** tirou %i" % (antigo_arg1, Resp), inline=False)
+    embed.add_field(name="Resultado: ", value="**%s** tirou %i no %s. " % (nome, Resp, arg0), inline=False)
     await ctx.reply(embed=embed, mention_author=True)
     pass
 
@@ -136,5 +142,12 @@ $roll d[n°] - Roda um dado a quantidade n
     pass
 """
 
+"""
+@client.command()
+async def nome(ctx, member: discord.Member):
+    nome = 'amor da minha vida'
+    await member.edit(nick=nome)
+    pass
+"""
 client.run(TOKEN)
 
