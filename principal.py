@@ -72,6 +72,7 @@ async def personagens(ctx):
     bloco=discord.Embed(color=0xff6600)
     for x,y in zip(listas_personagens, lista_criador):
         x = str(x)
+        y = str(y)
         bloco.add_field(name=x.title(), value="Criado por %s " % (y, x), inline=False)
     await ctx.send(embed=bloco)
     pass
