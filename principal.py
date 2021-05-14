@@ -73,7 +73,7 @@ async def personagens(ctx):
     for x,y in zip(listas_personagens, lista_criador):
         x = str(x)
         y = str(y)
-        bloco.add_field(name=x.title(), value="Criado por %s " % (y, x), inline=False)
+        bloco.add_field(name=x.title(), value="Criado por %s " % y, inline=False)
     await ctx.send(embed=bloco)
     pass
 
