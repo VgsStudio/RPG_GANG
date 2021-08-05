@@ -133,9 +133,24 @@ async def roll(ctx,arg0, arg3 = 0):
 #MUDAR NOME
 
 @client.command(pass_context=True)
-async def chnick(ctx, member: discord.Member, nick):
+async def nick(ctx, member: discord.Member, nick):
     await member.edit(nick=nick)
     await ctx.send(f'Nick foi alterado para {member.mention}!')
+
+
+
+@client.event
+async def on_member_update(before, after):
+    if before.nick != after.nick:  # to only run on status
+        embed = discord.Embed(title=f"Changed nick")
+        embed.add_field(name='User', value=before.mention)
+        embed.add_field(name='Before', value=before.nick)
+        embed.add_field(name='After', value=after.nick)
+        # send to admin or channel you choose
+        channel = client.get_channel(526517582963146762)  # notification channel
+        await channel.send(embed=embed)
+        admin = client.get_user(174749290902716417)  # admin to notify
+        await admin.send(embed=embed)
 
 
 """
