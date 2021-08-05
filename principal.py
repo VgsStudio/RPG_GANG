@@ -129,6 +129,15 @@ async def roll(ctx,arg0, arg3 = 0):
     await ctx.reply(embed=embed, mention_author=True)
     pass
 
+
+#MUDAR NOME
+
+@client.command(pass_context=True)
+async def chnick(ctx, member: discord.Member, nick):
+    await member.edit(nick=nick)
+    await ctx.send(f'Nick foi alterado para {member.mention}!')
+
+
 """
 @client.command()
 async def help(ctx):
